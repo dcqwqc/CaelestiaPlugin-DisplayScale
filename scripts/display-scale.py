@@ -108,13 +108,16 @@ def apply_live(monitor: str, scale_expr: str) -> None:
     refresh = float(info.get("refreshRate") or 60.0)
     x = int(info.get("x") or 0)
     y = int(info.get("y") or 0)
+    # Scale updates must not reset a rotation forced by TabletMode. A missing
+    # transform entry is equivalent to the compositor's normal (0) value.
+    transform = int(info.get("transform") or 0) % 4
     if width <= 0 or height <= 0:
         mode = "preferred"
     else:
         mode = f"{width}x{height}@{refresh:.2f}"
     expr = (
         "hl.monitor({ "
-        f'output = "{monitor}", mode = "{mode}", position = "{x}x{y}", scale = {scale_expr}'
+        f'output = "{monitor}", mode = "{mode}", position = "{x}x{y}", scale = {scale_expr}, transform = {transform}'
         " })"
     )
     subprocess.run(["hyprctl", "eval", expr], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=3, env=env)
