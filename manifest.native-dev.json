@@ -1,0 +1,15 @@
+{
+  "name": "DisplayScale",
+  "version": "0.1.0",
+  "author": "dcqwqc",
+  "icon": "display_settings",
+  "description": "Per-monitor display scaling for Hyprland, applied live and persisted through Caelestia config reloads.",
+  "entryPoints": [
+    {
+      "type": "custom",
+      "source": "Main.qml"
+    }
+  ],
+  "settings": "Settings.qml",
+  "requires": ">=2.1.0"
+}
